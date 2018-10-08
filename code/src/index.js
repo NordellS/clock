@@ -8,31 +8,39 @@ class Clock extends React.Component {
     date: new Date()
   }
 
-  componentDidMount = () => {
-    this.timerID = setInterval(
-      () => this.tick(),
-      1000
-    );
+  componentDidMount() {
+    this.runClock()
   }
 
-  componentWillUnmount = () => {
-    clearInterval(this.timerID);
+  componentWillUnmount() {
+    this.pauseClock()
   }
 
   tick() {
-      this.setState({
-        date: new Date()
-      });
-    }
+    this.setState({
+      date: new Date()
+    })
+  }
+
+  pauseClock = () => {
+    clearInterval(this.timerID)
+  }
+
+  runClock = () => {
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    )
+  }
 
   render() {
     return (
       <div className="clockContainer">
         <h1>Hello, world!</h1>
-        <h2>It is <br/> {this.state.date.toLocaleTimeString()}</h2>
+        <h2>The time is <br /> {this.state.date.toLocaleTimeString()} </h2>
         <div className="buttonContainer">
-          <button className="pauseButton" onClick={this.componentWillUnmount}> Pause </button>
-          <button className="runButton" onClick={this.componentDidMount}> Run </button>
+          <button className="pauseButton" onClick={this.pauseClock}> Pause </button>
+          <button className="runButton" onClick={this.runClock}> Run </button>
         </div>
       </div>
     )
